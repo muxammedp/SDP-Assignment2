@@ -1,0 +1,40 @@
+@startuml
+title Factory Method Pattern - Transport
+
+interface Transport <<Product>> {
+    + deliver(cargo: String, destination: String): void
+}
+
+class Truck <<Concrete Product>> {
+    + deliver(cargo: String, destination: String): void
+}
+
+class Ship <<Concrete Product>> {
+    + deliver(cargo: String, destination: String): void
+}
+
+abstract class Logistics <<Creator>> {
+    + {abstract} createTransport(): Transport
+    + planDelivery(cargo: String, destination: String): void
+}
+
+class RoadLogistics <<Concrete Creator>> {
+    + createTransport(): Transport
+}
+
+class SeaLogistics <<Concrete Creator>> {
+    + createTransport(): Transport
+}
+
+Truck ..|> Transport
+Ship ..|> Transport
+
+RoadLogistics --|> Logistics
+SeaLogistics --|> Logistics
+
+Logistics ..> Transport : creates / uses
+
+RoadLogistics ..> Truck : creates
+SeaLogistics ..> Ship : creates
+
+@enduml

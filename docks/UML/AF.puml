@@ -1,0 +1,75 @@
+@startuml
+title Abstract Factory Pattern - UI Components
+
+interface Button <<Abstract Product>> {
+    + paint(): void
+}
+
+interface Checkbox <<Abstract Product>> {
+    + paint(): void
+}
+
+class WindowsButton <<Concrete Product>> {
+    + paint(): void
+}
+
+class MacOSButton <<Concrete Product>> {
+    + paint(): void
+}
+
+class WindowsCheckbox <<Concrete Product>> {
+    + paint(): void
+}
+
+class MacOSCheckbox <<Concrete Product>> {
+    + paint(): void
+}
+
+interface GUIFactory <<Abstract Factory>> {
+    + createButton(): Button
+    + createCheckbox(): Checkbox
+}
+
+class WindowsFactory <<Concrete Factory>> {
+    + createButton(): Button
+    + createCheckbox(): Checkbox
+}
+
+class MacOSFactory <<Concrete Factory>> {
+    + createButton(): Button
+    + createCheckbox(): Checkbox
+}
+
+class DeliveryApplication <<Client>> {
+    - logistics: Logistics
+    - guiFactory: GUIFactory
+    + run(): void
+}
+
+class Main <<Client>> {
+    + main(args: String[]): void
+}
+
+WindowsButton ..|> Button
+MacOSButton ..|> Button
+
+WindowsCheckbox ..|> Checkbox
+MacOSCheckbox ..|> Checkbox
+
+WindowsFactory ..|> GUIFactory
+MacOSFactory ..|> GUIFactory
+
+WindowsFactory ..> WindowsButton : creates
+WindowsFactory ..> WindowsCheckbox : creates
+
+MacOSFactory ..> MacOSButton : creates
+MacOSFactory ..> MacOSCheckbox : creates
+
+DeliveryApplication ..> Logistics : uses
+DeliveryApplication ..> GUIFactory : uses
+
+Main ..> DeliveryApplication : creates & runs
+Main ..> Logistics : selects
+Main ..> GUIFactory : selects
+
+@enduml
